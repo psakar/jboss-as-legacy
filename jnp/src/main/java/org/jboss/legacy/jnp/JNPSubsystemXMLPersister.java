@@ -21,10 +21,12 @@
  */
 package org.jboss.legacy.jnp;
 
+import static org.jboss.legacy.jnp.JNPSubsystemModel.*;
+
 import javax.xml.stream.XMLStreamException;
+
 import org.jboss.as.controller.persistence.SubsystemMarshallingContext;
 import org.jboss.dmr.ModelNode;
-import static org.jboss.legacy.jnp.JNPSubsystemModel.SERVICE;
 import org.jboss.legacy.jnp.connector.JNPServerConnectorModel;
 import org.jboss.legacy.jnp.connector.JNPServerConnectorResourceDefinition;
 import org.jboss.legacy.jnp.infinispan.DistributedTreeManagerModel;
@@ -53,19 +55,20 @@ public class JNPSubsystemXMLPersister implements XMLElementWriter<SubsystemMarsh
 
     private void writeElements(XMLExtendedStreamWriter xmlExtendedStreamWriter,
             SubsystemMarshallingContext subsystemMarshallingContext) throws XMLStreamException {
-        if (subsystemMarshallingContext.getModelNode().hasDefined(SERVICE))  {
-            final ModelNode model = subsystemMarshallingContext.getModelNode().get(SERVICE);
+        ModelNode modelNode = subsystemMarshallingContext.getModelNode();
+        if (modelNode.hasDefined(SERVICE))  {
+            final ModelNode model = modelNode.get(SERVICE);
 
             if (model.hasDefined(JNPServerModel.SERVICE_NAME)) {
                 writeJNPServer(xmlExtendedStreamWriter);
             }
 
             if (model.hasDefined(JNPServerConnectorModel.SERVICE_NAME)) {
-                writeConnector(xmlExtendedStreamWriter, subsystemMarshallingContext);
+                writeConnector(xmlExtendedStreamWriter, model.get(JNPServerConnectorModel.SERVICE_NAME));
             }
 
             if (model.hasDefined(RemotingModel.SERVICE_NAME)) {
-                writeRemoting(xmlExtendedStreamWriter, subsystemMarshallingContext);
+                writeRemoting(xmlExtendedStreamWriter, model.get(RemotingModel.SERVICE_NAME));
             }
 
             if (model.hasDefined(DistributedTreeManagerModel.SERVICE_NAME)) {
@@ -80,11 +83,10 @@ public class JNPSubsystemXMLPersister implements XMLElementWriter<SubsystemMarsh
 
     /**
      * @param xmlExtendedStreamWriter
-     * @param subsystemMarshallingContext
+     * @param modelNode
      */
     private void writeConnector(XMLExtendedStreamWriter xmlExtendedStreamWriter,
-            SubsystemMarshallingContext subsystemMarshallingContext) throws XMLStreamException {
-        final ModelNode model = subsystemMarshallingContext.getModelNode().get(JNPServerConnectorModel.SERVICE_NAME);
+            ModelNode model) throws XMLStreamException {
 
         xmlExtendedStreamWriter.writeStartElement(JNPSubsystemXMLElement.JNP_CONNECTOR.getLocalName());
         if (model.hasDefined(JNPServerConnectorModel.SOCKET_BINDING)) {
@@ -104,8 +106,7 @@ public class JNPSubsystemXMLPersister implements XMLElementWriter<SubsystemMarsh
     }
 
     private void writeRemoting(XMLExtendedStreamWriter xmlExtendedStreamWriter,
-            SubsystemMarshallingContext subsystemMarshallingContext) throws XMLStreamException {
-        final ModelNode model = subsystemMarshallingContext.getModelNode().get(RemotingModel.SERVICE_NAME);
+            ModelNode model) throws XMLStreamException {
 
         xmlExtendedStreamWriter.writeStartElement(JNPSubsystemXMLElement.REMOTING.getLocalName());
         if (model.hasDefined(RemotingModel.SOCKET_BINDING)) {
