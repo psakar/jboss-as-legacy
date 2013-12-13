@@ -36,6 +36,7 @@
     <packaging>pom</packaging>
 
     <properties>
+    		<downloadSources>true</downloadSources>
         <directory.dependencies>${project.build.directory}/dependencies</directory.dependencies>
         <version.jboss.as>7.3.0.Final-redhat-SNAPSHOT</version.jboss.as>
         <version.plugin.maven.assembly>2.8</version.plugin.maven.assembly>
