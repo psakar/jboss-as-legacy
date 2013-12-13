@@ -38,26 +38,32 @@ import org.jboss.ejb3.proxy.spi.container.InvokableContext;
  * @author <a href="mailto:cdewolf@redhat.com">Carlo de Wolf</a>
  */
 public class InvokableContextClassProxyHack implements ClassProxy {
-    private InvokableContext container;
+    @SuppressWarnings("deprecation")
+    private final InvokableContext container;
 
-    public InvokableContextClassProxyHack(InvokableContext container) {
+    public InvokableContextClassProxyHack(@SuppressWarnings("deprecation") InvokableContext container) {
         assert container != null : "container is null";
 
         this.container = container;
     }
 
+    @Override
+    @SuppressWarnings("deprecation")
     public InvocationResponse _dynamicInvoke(Invocation invocation) throws Throwable {
         return container.dynamicInvoke(invocation);
     }
 
+    @Override
     public void setMixins(ProxyMixin[] mixins) {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public InstanceAdvisor _getInstanceAdvisor() {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public void _setInstanceAdvisor(InstanceAdvisor newAdvisor) {
         throw new UnsupportedOperationException();
     }

@@ -73,11 +73,13 @@ public class EJB3DeploymentProcessor implements DeploymentUnitProcessor {
                     try {
                         final EJBComponentDescription ejbComponentDescription = (EJBComponentDescription) componentDescription;
                         ejbComponentDescription.getConfigurators().add(new ComponentConfigurator() {
+                            @Override
                             public void configure(DeploymentPhaseContext context, ComponentDescription description,
                                     ComponentConfiguration configuration) throws DeploymentUnitProcessingException {
                                 final DeploymentEJBDataProxyMap dataMap = deploymentUnit.getAttachment(DeploymentEJBDataProxyMap.ATTACHMENT_KEY);
-                                if (dataMap != null && dataMap.get(dataMap.getServiceName(moduleDescription, ejbComponentDescription))!=null) {
-                                    final EJBDataProxy data = dataMap.get(dataMap.getServiceName(moduleDescription, ejbComponentDescription));
+                                ServiceName key = DeploymentEJBDataProxyMap.getServiceName(moduleDescription, ejbComponentDescription);
+                                if (dataMap != null && dataMap.get(key)!=null) {
+                                    final EJBDataProxy data = dataMap.get(key);
                                     // create servuce
                                     if (data.isStateful()) {
                                         StatefulDynamicInvokeService service = new StatefulDynamicInvokeService(data,

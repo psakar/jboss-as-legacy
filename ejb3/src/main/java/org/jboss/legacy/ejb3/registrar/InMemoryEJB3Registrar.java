@@ -21,18 +21,15 @@
  */
 package org.jboss.legacy.ejb3.registrar;
 
-import org.jboss.ejb3.common.registrar.spi.DuplicateBindException;
-import org.jboss.ejb3.common.registrar.spi.Ejb3Registrar;
-import org.jboss.ejb3.common.registrar.spi.NotBoundException;
-import org.jboss.ejb3.proxy.spi.container.StatefulSessionFactory;
-import org.jboss.logging.Logger;
-import org.jboss.util.id.GUID;
-
-import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.jboss.ejb3.common.registrar.spi.DuplicateBindException;
+import org.jboss.ejb3.common.registrar.spi.Ejb3Registrar;
+import org.jboss.ejb3.common.registrar.spi.NotBoundException;
+import org.jboss.logging.Logger;
 
 /**
  * @author <a href="mailto:cdewolf@redhat.com">Carlo de Wolf</a>

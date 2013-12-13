@@ -26,7 +26,6 @@ import java.net.URL;
 
 import org.jboss.aop.AspectXmlLoader;
 import org.jboss.as.core.security.ServerSecurityManager;
-import org.jboss.as.ee.component.Component;
 import org.jboss.ejb3.common.registrar.spi.Ejb3Registrar;
 import org.jboss.ejb3.common.registrar.spi.Ejb3RegistrarLocator;
 import org.jboss.ejb3.proxy.impl.jndiregistrar.JndiStatefulSessionRegistrar;
@@ -34,7 +33,6 @@ import org.jboss.ejb3.proxy.impl.jndiregistrar.JndiStatelessSessionRegistrar;
 import org.jboss.ejb3.proxy.impl.objectfactory.session.stateful.StatefulSessionProxyObjectFactory;
 import org.jboss.ejb3.proxy.impl.objectfactory.session.stateless.StatelessSessionProxyObjectFactory;
 import org.jboss.msc.service.Service;
-import org.jboss.msc.service.ServiceName;
 import org.jboss.msc.service.StartContext;
 import org.jboss.msc.service.StartException;
 import org.jboss.msc.service.StopContext;
@@ -57,9 +55,9 @@ public class EJB3RegistrarService implements Service<EJB3Registrar>{
     private JndiStatefulSessionRegistrar jndiStatefulSessionRegistrar;
     private URL aopURL;
 
-    private EJB3Registrar value = new LegacyEJB3RegistrarProxy(this);
+    private final EJB3Registrar value = new LegacyEJB3RegistrarProxy(this);
 
-    private InjectedValue<Connector> connector = new InjectedValue<Connector>();
+    private final InjectedValue<Connector> connector = new InjectedValue<Connector>();
     private final InjectedValue<ServerSecurityManager> serverSecurityManagerInjectedValue = new InjectedValue<ServerSecurityManager>();
     public EJB3RegistrarService() {
         super();
@@ -115,7 +113,7 @@ public class EJB3RegistrarService implements Service<EJB3Registrar>{
     }
 
     private class LegacyEJB3RegistrarProxy implements EJB3Registrar{
-        private EJB3RegistrarService wrapped;
+        private final EJB3RegistrarService wrapped;
 
         public LegacyEJB3RegistrarProxy(EJB3RegistrarService legacyEJB3RegistrarService) {
             this.wrapped = legacyEJB3RegistrarService;
