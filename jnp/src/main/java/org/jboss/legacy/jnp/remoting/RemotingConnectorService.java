@@ -84,7 +84,7 @@ public class RemotingConnectorService implements Service<Connector> {
             this.connector = new Connector();
             this.connector.setServerConfiguration(serverConfiguration);
             this.connector.start();
-            ROOT_LOGGER.remotingConnectorServiceStopped();
+            ROOT_LOGGER.remotingConnectorServiceStarted();
         } catch (Exception e) {
             throw new StartException(e);
         }

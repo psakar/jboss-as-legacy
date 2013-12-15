@@ -33,6 +33,8 @@ import org.jboss.msc.service.ServiceName;
  * @author baranowb
  */
 public class DeploymentEJBDataProxyMap extends HashMap<ServiceName, EJBDataProxy> {
+
+    private static final long serialVersionUID = -6901611321639488361L;
     public static final ServiceName SERVICE_NAME_BASE = ServiceName.of("jboss", "legacy");
     public static final AttachmentKey<DeploymentEJBDataProxyMap> ATTACHMENT_KEY = AttachmentKey
             .create(DeploymentEJBDataProxyMap.class);
@@ -41,10 +43,10 @@ public class DeploymentEJBDataProxyMap extends HashMap<ServiceName, EJBDataProxy
             final EJBComponentDescription ejbComponentDescription) {
         // TODO: what about ear/war/jar/ejb ?
         if (moduleDescription.getEarApplicationName() == null) {
-            return SERVICE_NAME_BASE.of(SERVICE_NAME_BASE, moduleDescription.getModuleName(),
+            return ServiceName.of(SERVICE_NAME_BASE, moduleDescription.getModuleName(),
                     ejbComponentDescription.getComponentName());
         } else {
-            return SERVICE_NAME_BASE.of(SERVICE_NAME_BASE, moduleDescription.getEarApplicationName(),
+            return ServiceName.of(SERVICE_NAME_BASE, moduleDescription.getEarApplicationName(),
                     moduleDescription.getModuleName(), ejbComponentDescription.getComponentName());
         }
     }

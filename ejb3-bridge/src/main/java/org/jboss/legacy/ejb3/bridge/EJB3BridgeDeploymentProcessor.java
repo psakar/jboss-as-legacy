@@ -23,6 +23,7 @@
 package org.jboss.legacy.ejb3.bridge;
 
 import java.util.Set;
+
 import org.jboss.as.ee.component.Attachments;
 import org.jboss.as.ee.component.ComponentConfiguration;
 import org.jboss.as.ee.component.ComponentConfigurator;
@@ -87,7 +88,7 @@ public class EJB3BridgeDeploymentProcessor implements DeploymentUnitProcessor {
                                     if (viewType == MethodIntf.REMOTE) {
                                         final ViewDescription viewDescription = vd;
                                         final String globalBinding = getGlobalBinding(viewDescription.getBindingNames());
-                                        deploymentEJBDataProxyMap.put(deploymentEJBDataProxyMap.getServiceName(moduleDescription, ejbComponentDescription), new EJBDataProxy() {
+                                        deploymentEJBDataProxyMap.put(DeploymentEJBDataProxyMap.getServiceName(moduleDescription, ejbComponentDescription), new EJBDataProxy() {
 
                                             @Override
                                             public String getName() {
@@ -167,7 +168,7 @@ public class EJB3BridgeDeploymentProcessor implements DeploymentUnitProcessor {
         DeploymentEJBDataProxyMap data = deploymentUnit.getAttachment(DeploymentEJBDataProxyMap.ATTACHMENT_KEY);
         if(data == null){
             data = new DeploymentEJBDataProxyMap();
-            deploymentUnit.putAttachment(data.ATTACHMENT_KEY, data);
+            deploymentUnit.putAttachment(DeploymentEJBDataProxyMap.ATTACHMENT_KEY, data);
         }
         return data;
     }

@@ -22,11 +22,13 @@ package org.jboss.legacy.jnp.server;
 
 import java.rmi.RemoteException;
 import java.util.Collection;
+
 import javax.naming.Binding;
 import javax.naming.Context;
 import javax.naming.Name;
 import javax.naming.NameClassPair;
 import javax.naming.NamingException;
+
 import org.jboss.as.naming.NamingStore;
 import org.jboss.as.naming.ServiceBasedNamingStore;
 import org.jnp.interfaces.Naming;
@@ -50,6 +52,7 @@ public class NamingStoreWrapper implements Naming {
 
     @Override
     public void bind(Name name, Object obj, String className) throws NamingException, RemoteException {
+        System.err.println("Bind " + name);
         singletonNamingServer.bind(name, obj, className);
     }
 
@@ -60,42 +63,58 @@ public class NamingStoreWrapper implements Naming {
 
     @Override
     public void unbind(Name name) throws NamingException, RemoteException {
+      System.err.println("Unbind " + name);
         singletonNamingServer.unbind(name);
     }
 
     @Override
     public Object lookup(Name name) throws NamingException, RemoteException {
+        System.err.println("Lookup " + name);
         try {
             return singletonNamingServer.lookup(name);
         } catch (Exception t) {
-            return namingStore.lookup(name);
+           System.err.println("Lookup error " + t.getMessage() + ". Trying naming store");
+           Object found = null;
+           try {
+             found = namingStore.lookup(name); // new CompositeName("jboss/exported/" + name));
+           } catch (Exception e) {
+             found = e;
+           }
+           System.err.println("Naming store result : " + found);
+           return namingStore.lookup(name);
         }
     }
 
     @Override
     public Collection<NameClassPair> list(Name name) throws NamingException, RemoteException {
+      System.err.println("List " + name);
         try {
             return singletonNamingServer.list(name);
         } catch (Exception t) {
+          System.err.println("List error " + t.getMessage() + ". Trying naming store");
             return namingStore.list(name);
         }
     }
 
     @Override
     public Collection<Binding> listBindings(Name name) throws NamingException, RemoteException {
+      System.err.println("List bindings " + name);
         try {
             return singletonNamingServer.listBindings(name);
         } catch (Exception t) {
+          System.err.println("List bindings error " + t.getMessage() + ". Trying naming store");
             return namingStore.listBindings(name);
         }
     }
 
     @Override
     public Context createSubcontext(Name name) throws NamingException, RemoteException {
+      System.err.println("Create subcontext " + name);
         synchronized (this) {
             try {
                 return singletonNamingServer.createSubcontext(name);
             } catch (NamingException e) {
+              System.err.println("Create subcontext error " + e.getMessage());
                 Object value = singletonNamingServer.lookup(name);
                 if (value instanceof Context) {
                     return (Context) value;

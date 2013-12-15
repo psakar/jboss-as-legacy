@@ -25,7 +25,6 @@ package org.jboss.legacy.ejb3.bridge;
 import javax.xml.stream.XMLStreamException;
 
 import org.jboss.as.controller.persistence.SubsystemMarshallingContext;
-import org.jboss.dmr.ModelNode;
 import org.jboss.staxmapper.XMLElementWriter;
 import org.jboss.staxmapper.XMLExtendedStreamWriter;
 
@@ -50,7 +49,7 @@ public class EJB3BridgeSubsystemXMLPersister implements XMLElementWriter<Subsyst
 
     private void writeElements(XMLExtendedStreamWriter xmlExtendedStreamWriter,
             SubsystemMarshallingContext subsystemMarshallingContext) throws XMLStreamException {
-        final ModelNode model = subsystemMarshallingContext.getModelNode();
+//        final ModelNode model = subsystemMarshallingContext.getModelNode();
 
     }
 }
