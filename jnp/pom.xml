@@ -27,7 +27,7 @@
         <version>7.3.0.Final-redhat-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    
+
     <artifactId>jboss-as-legacy-jnp</artifactId>
     <name>JBoss Application Server: Legacy : JNP</name>
     <packaging>jar</packaging>
@@ -66,7 +66,7 @@
                                 <property name="module.lib.dir" value="${module.dir}/lib"/>
                                 <copy file="src/main/resources/module/main/module.xml" tofile="${module.dir}/module.xml"/>
                                 <copy file="target/${project.artifactId}.jar" todir="${module.dir}"/>
-                                <echo>Module ${module.name} has been created in the target/module directory. Copy to your JBoss AS 7 installation.</echo>
+                                <echo>Module ${module.name} has been created in the target/module directory. You can copy it to your JBoss AS 7 installation.</echo>
                             </target>
                         </configuration>
                     </execution>
@@ -81,6 +81,12 @@
             <artifactId>jboss-as-legacy-lib</artifactId>
             <groupId>org.jboss.as.legacy</groupId>
             <version>${project.version}</version>
+            <exclusions>
+            	<exclusion>
+            		<groupId>org.jboss.logging</groupId>
+            		<artifactId>jboss-logging-spi</artifactId>
+            	</exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.jboss.as</groupId>
@@ -90,6 +96,19 @@
             <groupId>org.jboss.as</groupId>
             <artifactId>jboss-as-clustering-impl</artifactId>
             <type>jar</type>
+        </dependency>
+        <dependency>
+           <groupId>org.jboss.logging</groupId>
+           <artifactId>jboss-logging</artifactId>
+        </dependency>
+
+        <dependency>
+           <groupId>org.jboss.logging</groupId>
+           <artifactId>jboss-logging-processor</artifactId>
+           <!-- This is a compile-time dependency of this project, but is not needed at compile or runtime by other
+                 projects that depend on this project.-->
+           <scope>provided</scope>
+           <optional>true</optional>
         </dependency>
     </dependencies>
 </project>

@@ -21,6 +21,8 @@
  */
 package org.jboss.legacy.jnp.connector.clustered;
 
+import static org.jboss.legacy.jnp.JNPLogger.*;
+
 import org.jboss.as.clustering.impl.CoreGroupCommunicationService;
 import org.jboss.as.naming.ServiceBasedNamingStore;
 import org.jboss.as.network.SocketBinding;
@@ -99,6 +101,7 @@ public class HAConnectorService implements JNPServerNamingConnectorService<HANam
             partition.start();
             haNamingService.create();
             haNamingService.start();
+            ROOT_LOGGER.hAConnectorServiceStarted();
         } catch (Exception e) {
             throw new StartException(e);
         }
@@ -108,5 +111,6 @@ public class HAConnectorService implements JNPServerNamingConnectorService<HANam
     public void stop(StopContext stopContext) {
         this.haNamingService.stop();
         this.haNamingService = null;
+        ROOT_LOGGER.hAConnectorServiceStopped();
     }
 }

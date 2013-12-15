@@ -21,6 +21,8 @@
  */
 package org.jboss.legacy.jnp.connector.simple;
 
+import static org.jboss.legacy.jnp.JNPLogger.*;
+
 import org.jboss.as.network.SocketBinding;
 import org.jboss.legacy.jnp.connector.JNPServerNamingConnectorService;
 import org.jboss.legacy.jnp.server.JNPServer;
@@ -77,6 +79,7 @@ public class SingleConnectorService implements JNPServerNamingConnectorService<M
             this.serverConnector.setBindAddress(this.getBinding().getValue().getAddress().getHostName());
             this.serverConnector.setPort(this.getBinding().getValue().getAbsolutePort());
             this.serverConnector.start();
+            ROOT_LOGGER.singleConnectorServiceStarted();
         } catch (Exception e) {
             throw new StartException(e);
         }
@@ -86,5 +89,6 @@ public class SingleConnectorService implements JNPServerNamingConnectorService<M
     public void stop(StopContext stopContext) {
         this.serverConnector.stop();
         this.serverConnector = null;
+        ROOT_LOGGER.singleConnectorServiceStopped();
     }
 }

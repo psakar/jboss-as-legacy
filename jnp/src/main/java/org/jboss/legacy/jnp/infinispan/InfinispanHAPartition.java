@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
+
 import org.jboss.as.clustering.impl.CoreGroupCommunicationService;
 import org.jboss.ha.framework.interfaces.ClusterNode;
 import org.jboss.ha.framework.interfaces.DistributedReplicantManager;
@@ -37,6 +38,7 @@ import org.jboss.ha.framework.server.DistributedReplicantManagerImpl;
  *
  * @author <a href="mailto:ehugonne@redhat.com">Emmanuel Hugonnet</a> (c) 2013 Red Hat, inc.
  */
+@SuppressWarnings("deprecation")
 public class InfinispanHAPartition implements HAPartition {
 
     private final CoreGroupCommunicationService service;
@@ -83,31 +85,37 @@ public class InfinispanHAPartition implements HAPartition {
         service.unregisterRPCHandler(serviceName, subscriber);
     }
 
+    @SuppressWarnings({"rawtypes", "unchecked"})
     @Override
     public ArrayList callMethodOnCluster(String serviceName, String methodName, Object[] args, Class[] types, boolean excludeSelf) throws Exception {
         return new ArrayList(service.callMethodOnCluster(serviceName, methodName, args, types, excludeSelf));
     }
 
+    @SuppressWarnings({"rawtypes", "unchecked"})
     @Override
     public ArrayList callMethodOnCluster(String serviceName, String methodName, Object[] args, Class[] types, boolean excludeSelf, final ResponseFilter filter) throws Exception {
         return new ArrayList(service.callMethodOnCluster(serviceName, methodName, args, types, excludeSelf, new ResponseFilterAdapter(filter)));
     }
 
+    @SuppressWarnings({"rawtypes"})
     @Override
     public void callAsynchMethodOnCluster(String serviceName, String methodName, Object[] args, Class[] types, boolean excludeSelf) throws Exception {
         service.callAsynchMethodOnCluster(serviceName, methodName, args, types, excludeSelf);
     }
 
+    @SuppressWarnings({"rawtypes"})
     @Override
     public ArrayList callMethodOnCoordinatorNode(String serviceName, String methodName, Object[] args, Class[] types, boolean excludeSelf) throws Exception {
         return service.callMethodOnCoordinatorNode(serviceName, methodName, args, types, excludeSelf);
     }
 
+    @SuppressWarnings({"rawtypes"})
     @Override
     public Object callMethodOnNode(String serviceName, String methodName, Object[] args, Class[] types, long methodTimeout, ClusterNode targetNode) throws Throwable {
         return service.callMethodOnNode(serviceName, methodName, args, types, new ClusterNodeAdapter(targetNode));
     }
 
+    @SuppressWarnings({"rawtypes"})
     @Override
     public void callAsyncMethodOnNode(String serviceName, String methodName, Object[] args, Class[] types, long methodTimeout, ClusterNode targetNode) throws Throwable {
         service.callAsyncMethodOnNode(serviceName, methodName, args, types, new ClusterNodeAdapter(targetNode));
@@ -149,6 +157,7 @@ public class InfinispanHAPartition implements HAPartition {
         return service.getCurrentViewId();
     }
 
+    @SuppressWarnings({"rawtypes", "unchecked"})
     @Override
     public Vector getCurrentView() {
         return new Vector(service.getCurrentView());

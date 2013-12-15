@@ -22,6 +22,8 @@
 
 package org.jboss.legacy.jnp;
 
+import static org.jboss.legacy.jnp.JNPLogger.*;
+
 import java.util.List;
 
 import org.jboss.as.controller.AbstractBoottimeAddStepHandler;
@@ -46,6 +48,7 @@ class JNPSubsystemAdd extends AbstractBoottimeAddStepHandler{
     protected void performBoottime(OperationContext context, ModelNode operation, ModelNode model,
             ServiceVerificationHandler verificationHandler, List<ServiceController<?>> newControllers)
             throws OperationFailedException {
+        ROOT_LOGGER.activatingLegacyJnpExtension();
     }
 
 }

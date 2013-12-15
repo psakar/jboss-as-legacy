@@ -22,21 +22,26 @@
 
 package org.jboss.legacy.jnp.server;
 
-import org.jboss.legacy.jnp.server.clustered.HAServerService;
+import static org.jboss.legacy.jnp.JNPLogger.*;
+
 import org.jboss.as.controller.AbstractRemoveStepHandler;
 import org.jboss.as.controller.OperationContext;
 import org.jboss.as.controller.OperationFailedException;
-import org.jboss.as.controller.PathAddress;
-import org.jboss.as.controller.descriptions.ModelDescriptionConstants;
 import org.jboss.dmr.ModelNode;
+import org.jboss.legacy.jnp.server.clustered.HAServerService;
+import org.jboss.legacy.jnp.server.simple.SingleServerService;
+import org.jboss.msc.service.ServiceName;
 
 /**
  * @author baranowb
  *
  */
-public class JNPServerServiceRemoveStepHandler extends AbstractRemoveStepHandler {
+class JNPServerServiceRemoveStepHandler extends AbstractRemoveStepHandler {
 
-    public static final JNPServerServiceRemoveStepHandler INSTANCE = new JNPServerServiceRemoveStepHandler();
+    static final JNPServerServiceRemoveStepHandler INSTANCE = new JNPServerServiceRemoveStepHandler();
+
+    private JNPServerServiceRemoveStepHandler() {
+    }
 
     @Override
     protected void performRuntime(OperationContext context, ModelNode operation, ModelNode model) throws OperationFailedException {
@@ -57,8 +62,10 @@ public class JNPServerServiceRemoveStepHandler extends AbstractRemoveStepHandler
         }
     }
 
-    void removeRuntimeService(OperationContext context, ModelNode operation) {
-        final String name = PathAddress.pathAddress(operation.get(ModelDescriptionConstants.ADDRESS)).getLastElement().getValue();
-        context.removeService(HAServerService.SERVICE_NAME);
+    void removeRuntimeService(OperationContext context, ModelNode operation) throws OperationFailedException {
+        ROOT_LOGGER.deactivatingLegacyJnpServer();
+        boolean isHA = JNPServerResourceDefinition.HA.resolveModelAttribute(context, operation).asBoolean(false);
+        ServiceName serviceName = isHA ? HAServerService.SERVICE_NAME : SingleServerService.SERVICE_NAME;
+        context.removeService(serviceName);
     }
 }

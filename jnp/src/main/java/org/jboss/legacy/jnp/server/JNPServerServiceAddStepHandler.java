@@ -21,7 +21,8 @@
  */
 package org.jboss.legacy.jnp.server;
 
-import org.jboss.legacy.jnp.server.clustered.HAServerService;
+import static org.jboss.legacy.jnp.JNPLogger.*;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -35,6 +36,7 @@ import org.jboss.as.naming.deployment.ContextNames;
 import org.jboss.dmr.ModelNode;
 import org.jboss.ha.jndi.HANamingService;
 import org.jboss.legacy.jnp.connector.JNPServerNamingConnectorService;
+import org.jboss.legacy.jnp.server.clustered.HAServerService;
 import org.jboss.legacy.jnp.server.simple.SingleServerService;
 import org.jboss.msc.service.ServiceBuilder;
 import org.jboss.msc.service.ServiceController;
@@ -43,17 +45,18 @@ import org.jboss.msc.service.ServiceTarget;
 /**
  * @author baranowb
  */
-public class JNPServerServiceAddStepHandler extends AbstractBoottimeAddStepHandler {
+class JNPServerServiceAddStepHandler extends AbstractBoottimeAddStepHandler {
 
-    public static final JNPServerServiceAddStepHandler INSTANCE = new JNPServerServiceAddStepHandler();
+    static final JNPServerServiceAddStepHandler INSTANCE = new JNPServerServiceAddStepHandler();
 
-    public JNPServerServiceAddStepHandler() {
+    private JNPServerServiceAddStepHandler() {
     }
 
     @Override
     protected void performBoottime(OperationContext context, ModelNode operation, ModelNode model,
             ServiceVerificationHandler verificationHandler, List<ServiceController<?>> newControllers)
             throws OperationFailedException {
+        ROOT_LOGGER.activatingLegacyJnpServer();
         newControllers.addAll(this.installRuntimeServices(context, operation, model, verificationHandler));
     }
 
@@ -63,13 +66,15 @@ public class JNPServerServiceAddStepHandler extends AbstractBoottimeAddStepHandl
         final ServiceTarget serviceTarget = context.getServiceTarget();
         final ServiceBuilder<?> serviceBuilder;
         if (isHA) {
+            ROOT_LOGGER.activatingHANamingService();
             HAServerService service = new HAServerService();
             serviceBuilder = serviceTarget.addService(JNPServerService.SERVICE_NAME, service);
-            serviceBuilder.addDependency(JNPServerNamingConnectorService.SERVICE_NAME, HANamingService.class, ((HAServerService) service).getHaNamingService());
+            serviceBuilder.addDependency(JNPServerNamingConnectorService.SERVICE_NAME, HANamingService.class, service.getHaNamingService());
         } else {
+            ROOT_LOGGER.activatingNamingService();
             SingleServerService service = new SingleServerService();
             serviceBuilder = serviceTarget.addService(JNPServerService.SERVICE_NAME, service);
-            serviceBuilder.addDependency(ContextNames.JAVA_CONTEXT_SERVICE_NAME, ServiceBasedNamingStore.class, ((SingleServerService) service).getNamingStoreInjector());
+            serviceBuilder.addDependency(ContextNames.JAVA_CONTEXT_SERVICE_NAME, ServiceBasedNamingStore.class, service.getNamingStoreInjector());
         }
         if (verificationHandler != null) {
             serviceBuilder.addListener(verificationHandler);
@@ -79,7 +84,7 @@ public class JNPServerServiceAddStepHandler extends AbstractBoottimeAddStepHandl
         installedServices.add(remotingServiceController);
         return installedServices;
     }
-    
+
     @Override
     protected void populateModel(final ModelNode operation, final ModelNode model) throws OperationFailedException {
         model.setEmptyObject();

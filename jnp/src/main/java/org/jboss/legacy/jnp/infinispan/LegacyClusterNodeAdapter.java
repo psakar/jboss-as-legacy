@@ -25,6 +25,7 @@ import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
+
 import org.jboss.ha.framework.interfaces.ClusterNode;
 import org.jgroups.stack.IpAddress;
 
@@ -34,7 +35,8 @@ import org.jgroups.stack.IpAddress;
  */
 public class LegacyClusterNodeAdapter implements ClusterNode {
 
-    private org.jboss.as.clustering.ClusterNode node;
+    private static final long serialVersionUID = -3965095985530837853L;
+    private final org.jboss.as.clustering.ClusterNode node;
 
     public LegacyClusterNodeAdapter(org.jboss.as.clustering.ClusterNode node) {
         this.node = node;
@@ -71,8 +73,8 @@ public class LegacyClusterNodeAdapter implements ClusterNode {
         return getId(this).compareTo(getId((ClusterNode) o));
     }
 
-    public static Vector convertToVector(List<org.jboss.as.clustering.ClusterNode> nodes) {
-        Vector result = new Vector(nodes.size());
+    public static Vector<ClusterNode> convertToVector(List<org.jboss.as.clustering.ClusterNode> nodes) {
+        Vector<ClusterNode> result = new Vector<ClusterNode>(nodes.size());
         for (org.jboss.as.clustering.ClusterNode node : nodes) {
             result.add(new LegacyClusterNodeAdapter(node));
         }

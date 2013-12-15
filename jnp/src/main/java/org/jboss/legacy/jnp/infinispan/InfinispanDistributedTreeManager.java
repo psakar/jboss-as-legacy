@@ -28,6 +28,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import javax.naming.Binding;
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -38,11 +39,12 @@ import javax.naming.NameClassPair;
 import javax.naming.NameNotFoundException;
 import javax.naming.NamingException;
 import javax.naming.NotContextException;
+
 import org.infinispan.Cache;
 import org.infinispan.CacheException;
 import org.infinispan.tree.Fqn;
-import org.infinispan.tree.TreeCache;
 import org.infinispan.tree.Node;
+import org.infinispan.tree.TreeCache;
 import org.infinispan.tree.TreeCacheFactory;
 import org.jboss.ha.jndi.spi.DistributedTreeManager;
 import org.jboss.logging.Logger;
@@ -74,6 +76,7 @@ public class InfinispanDistributedTreeManager implements org.jnp.interfaces.Nami
         super();
     }
 
+    @SuppressWarnings("unchecked")
     public Cache<String, Binding> getClusteredCache() {
         return (Cache<String, Binding>) cache.getCache();
     }
@@ -97,7 +100,6 @@ public class InfinispanDistributedTreeManager implements org.jnp.interfaces.Nami
         return m_root == null ? DEFAULT_ROOT : m_root.toString();
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public void init() {
         if (this.cache == null) {
@@ -196,6 +198,7 @@ public class InfinispanDistributedTreeManager implements org.jnp.interfaces.Nami
         }
     }
 
+    @Override
     public Object lookup(Name name) throws NamingException {
         boolean trace = log.isTraceEnabled();
         if (trace) {
@@ -247,6 +250,7 @@ public class InfinispanDistributedTreeManager implements org.jnp.interfaces.Nami
         }
     }
 
+    @Override
     public Collection<NameClassPair> list(Name name) throws NamingException {
         if (log.isTraceEnabled()) {
             log.trace("list, name=" + name);
@@ -303,6 +307,7 @@ public class InfinispanDistributedTreeManager implements org.jnp.interfaces.Nami
         }
     }
 
+    @Override
     public Collection<Binding> listBindings(Name name) throws NamingException {
         if (log.isTraceEnabled()) {
             log.trace("listBindings, name=" + name);

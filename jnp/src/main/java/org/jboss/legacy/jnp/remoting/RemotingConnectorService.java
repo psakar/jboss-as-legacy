@@ -21,11 +21,14 @@
  */
 package org.jboss.legacy.jnp.remoting;
 
+import static org.jboss.legacy.jnp.JNPLogger.*;
+import static org.jboss.legacy.jnp.JNPSubsystemModel.*;
+
 import java.util.HashMap;
 import java.util.Map;
+
 import org.jboss.as.network.SocketBinding;
 import org.jboss.aspects.remoting.AOPRemotingInvocationHandler;
-import static org.jboss.legacy.jnp.JNPSubsystemModel.LEGACY;
 import org.jboss.msc.service.Service;
 import org.jboss.msc.service.ServiceName;
 import org.jboss.msc.service.StartContext;
@@ -81,6 +84,7 @@ public class RemotingConnectorService implements Service<Connector> {
             this.connector = new Connector();
             this.connector.setServerConfiguration(serverConfiguration);
             this.connector.start();
+            ROOT_LOGGER.remotingConnectorServiceStopped();
         } catch (Exception e) {
             throw new StartException(e);
         }
@@ -89,6 +93,7 @@ public class RemotingConnectorService implements Service<Connector> {
     @Override
     public void stop(StopContext stopContext) {
         this.connector.stop();
+        ROOT_LOGGER.remotingConnectorServiceStopped();
     }
 
 }

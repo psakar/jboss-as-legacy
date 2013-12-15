@@ -21,6 +21,8 @@
  */
 package org.jboss.legacy.jnp.server.clustered;
 
+import static org.jboss.legacy.jnp.JNPLogger.*;
+
 import org.jboss.ha.jndi.HANamingService;
 import org.jboss.legacy.jnp.server.JNPServer;
 import org.jboss.legacy.jnp.server.JNPServerService;
@@ -67,10 +69,12 @@ public class HAServerService implements JNPServerService {
                 };
             }
         };
+        ROOT_LOGGER.hAServerServiceStarted();
     }
 
     @Override
     public void stop(StopContext context) {
         this.server = null;
+        ROOT_LOGGER.hAServerServiceStarted();
     }
 }

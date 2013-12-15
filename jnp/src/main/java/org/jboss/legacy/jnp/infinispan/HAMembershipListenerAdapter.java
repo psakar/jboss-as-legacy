@@ -23,6 +23,7 @@ package org.jboss.legacy.jnp.infinispan;
 
 import java.util.List;
 import java.util.Vector;
+
 import org.jboss.as.clustering.ClusterNode;
 import org.jboss.as.clustering.GroupMembershipListener;
 import org.jboss.ha.framework.interfaces.HAPartition.HAMembershipExtendedListener;
@@ -50,7 +51,7 @@ public class HAMembershipListenerAdapter implements GroupMembershipListener {
     @Override
     public void membershipChangedDuringMerge(List<ClusterNode> deadMembers, List<ClusterNode> newMembers, List<ClusterNode> allMembers, List<List<ClusterNode>> originatingGroups) {
         if (listener instanceof HAMembershipExtendedListener) {
-            Vector groups = new Vector(originatingGroups.size());
+            Vector<Vector<org.jboss.ha.framework.interfaces.ClusterNode>> groups = new Vector<Vector<org.jboss.ha.framework.interfaces.ClusterNode>>(originatingGroups.size());
             for (List<ClusterNode> group : originatingGroups) {
                 groups.add(LegacyClusterNodeAdapter.convertToVector(group));
             }

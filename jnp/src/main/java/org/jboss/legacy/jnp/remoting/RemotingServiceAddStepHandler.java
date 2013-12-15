@@ -21,6 +21,8 @@
  */
 package org.jboss.legacy.jnp.remoting;
 
+import static org.jboss.legacy.jnp.JNPLogger.*;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -58,11 +60,12 @@ public class RemotingServiceAddStepHandler extends AbstractBoottimeAddStepHandle
 
     Collection<ServiceController<?>> installRuntimeServices(final OperationContext context, final ModelNode operation, final ModelNode model, final ServiceVerificationHandler verificationHandler) throws OperationFailedException {
 
+        ROOT_LOGGER.activatingRemotingService();
         final ModelNode bindingRefModel = RemotingResourceDefinition.SOCKET_BINDING.resolveModelAttribute(context, operation);
 
         final RemotingConnectorService service = new RemotingConnectorService();
         final ServiceTarget serviceTarget = context.getServiceTarget();
-        final ServiceBuilder<Connector> serviceBuilder = serviceTarget.addService(service.SERVICE_NAME, service);
+        final ServiceBuilder<Connector> serviceBuilder = serviceTarget.addService(RemotingConnectorService.SERVICE_NAME, service);
         serviceBuilder.addDependency(JNPServerService.SERVICE_NAME).addDependency(SocketBinding.JBOSS_BINDING_NAME.append(
                 bindingRefModel.asString()), SocketBinding.class, service.getBinding());
         if (verificationHandler != null) {

@@ -25,9 +25,9 @@ package org.jboss.legacy.jnp.connector;
 import org.jboss.as.controller.AbstractRemoveStepHandler;
 import org.jboss.as.controller.OperationContext;
 import org.jboss.as.controller.OperationFailedException;
-import org.jboss.as.controller.PathAddress;
-import org.jboss.as.controller.descriptions.ModelDescriptionConstants;
 import org.jboss.dmr.ModelNode;
+import org.jboss.legacy.jnp.connector.clustered.HAConnectorService;
+import org.jboss.legacy.jnp.connector.simple.SingleConnectorService;
 
 /**
  *
@@ -55,8 +55,11 @@ public class JNPServerConnectorServiceRemoveStepHandler extends AbstractRemoveSt
         }
     }
 
-    void removeRuntimeService(OperationContext context, ModelNode operation) {
-        final String name = PathAddress.pathAddress(operation.get(ModelDescriptionConstants.ADDRESS)).getLastElement().getValue();
-        context.removeService(JNPServerNamingConnectorService.SERVICE_NAME);
+    void removeRuntimeService(OperationContext context, ModelNode operation) throws OperationFailedException {
+        final ModelNode containerRef = JNPServerConnectorResourceDefinition.CACHE_CONTAINER.resolveModelAttribute(context, operation);
+        if (containerRef.isDefined())
+          context.removeService(HAConnectorService.SERVICE_NAME);
+        else
+          context.removeService(SingleConnectorService.SERVICE_NAME);
     }
 }

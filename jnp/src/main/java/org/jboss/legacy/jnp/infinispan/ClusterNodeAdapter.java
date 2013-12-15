@@ -22,6 +22,7 @@
 package org.jboss.legacy.jnp.infinispan;
 
 import java.net.InetAddress;
+
 import org.jboss.as.clustering.ClusterNode;
 import org.jgroups.stack.IpAddress;
 
@@ -31,6 +32,7 @@ import org.jgroups.stack.IpAddress;
  */
 public class ClusterNodeAdapter implements ClusterNode {
 
+    private static final long serialVersionUID = -8347723999261173692L;
     private final org.jboss.ha.framework.interfaces.ClusterNode node;
 
     public ClusterNodeAdapter(org.jboss.ha.framework.interfaces.ClusterNode node) {

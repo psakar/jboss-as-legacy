@@ -24,8 +24,8 @@ package org.jboss.legacy.jnp.connector;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import org.jboss.as.clustering.impl.CoreGroupCommunicationService;
 
+import org.jboss.as.clustering.impl.CoreGroupCommunicationService;
 import org.jboss.as.controller.AbstractBoottimeAddStepHandler;
 import org.jboss.as.controller.OperationContext;
 import org.jboss.as.controller.OperationFailedException;
@@ -62,12 +62,14 @@ public class JNPServerConnectorServiceAddStepHandler extends AbstractBoottimeAdd
         newControllers.addAll(this.installRuntimeServices(context, operation, model, verificationHandler));
     }
 
+    @SuppressWarnings("unchecked")
     Collection<ServiceController<?>> installRuntimeServices(final OperationContext context, final ModelNode operation,
             final ModelNode model, final ServiceVerificationHandler verificationHandler) throws OperationFailedException {
         final ModelNode bindingRefModel = JNPServerConnectorResourceDefinition.SOCKET_BINDING.resolveModelAttribute(context, operation);
         final ModelNode containerRef = JNPServerConnectorResourceDefinition.CACHE_CONTAINER.resolveModelAttribute(context, operation);
         final ServiceTarget serviceTarget = context.getServiceTarget();
         final ServiceBuilder<JNPServerNamingConnectorService<?>> serviceBuilder;
+        @SuppressWarnings("rawtypes")
         final JNPServerNamingConnectorService service;
         if (containerRef.isDefined()) {
             service = new HAConnectorService();

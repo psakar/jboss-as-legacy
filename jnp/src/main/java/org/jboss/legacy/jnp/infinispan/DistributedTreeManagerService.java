@@ -21,8 +21,12 @@
  */
 package org.jboss.legacy.jnp.infinispan;
 
+import static org.jboss.legacy.jnp.JNPLogger.*;
+import static org.jboss.legacy.jnp.JNPSubsystemModel.*;
+
+import javax.naming.Binding;
+
 import org.infinispan.Cache;
-import static org.jboss.legacy.jnp.JNPSubsystemModel.LEGACY;
 import org.jboss.msc.service.Service;
 import org.jboss.msc.service.ServiceName;
 import org.jboss.msc.service.StartContext;
@@ -38,17 +42,19 @@ public class DistributedTreeManagerService implements Service<InfinispanDistribu
     public static final ServiceName SERVICE_NAME = ServiceName.JBOSS.append(LEGACY).append(DistributedTreeManagerModel.SERVICE_NAME);
 
     private InfinispanDistributedTreeManager treeManager;
-    private final InjectedValue<Cache> cache = new InjectedValue<Cache>();
+    private final InjectedValue<Cache<String, Binding>> cache = new InjectedValue<Cache<String, Binding>>();
 
     @Override
     public void start(StartContext context) throws StartException {
             this.treeManager = new InfinispanDistributedTreeManager();
             this.treeManager.setClusteredCache(cache.getValue());
+            ROOT_LOGGER.distributedTreeManagerServiceStarted();
     }
 
     @Override
     public void stop(StopContext context) {
         this.treeManager = null;
+        ROOT_LOGGER.distributedTreeManagerServiceStopped();
     }
 
     @Override
@@ -56,7 +62,7 @@ public class DistributedTreeManagerService implements Service<InfinispanDistribu
         return this.treeManager;
     }
 
-    public InjectedValue<Cache> getCache() {
+    public InjectedValue<Cache<String, Binding>> getCache() {
         return cache;
     }
 }

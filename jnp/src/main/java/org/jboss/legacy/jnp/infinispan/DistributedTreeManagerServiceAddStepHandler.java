@@ -8,6 +8,7 @@ package org.jboss.legacy.jnp.infinispan;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
 import org.infinispan.Cache;
 import org.jboss.as.clustering.infinispan.subsystem.CacheService;
 import org.jboss.as.controller.AbstractBoottimeAddStepHandler;
@@ -38,6 +39,7 @@ public class DistributedTreeManagerServiceAddStepHandler extends AbstractBoottim
         newControllers.addAll(this.installRuntimeServices(context, operation, model, verificationHandler));
     }
 
+    @SuppressWarnings({"rawtypes", "unchecked"})
     Collection<ServiceController<?>> installRuntimeServices(final OperationContext context, final ModelNode operation,
             final ModelNode model, final ServiceVerificationHandler verificationHandler) throws OperationFailedException {
         final String cacheRef = DistributedTreeManagerResourceDefinition.CACHE_REF.resolveModelAttribute(context, operation).asString();
@@ -45,7 +47,7 @@ public class DistributedTreeManagerServiceAddStepHandler extends AbstractBoottim
         final DistributedTreeManagerService service = new DistributedTreeManagerService();
         final ServiceTarget serviceTarget = context.getServiceTarget();
         final ServiceBuilder<InfinispanDistributedTreeManager> serviceBuilder = serviceTarget.addService(DistributedTreeManagerService.SERVICE_NAME, service);
-        serviceBuilder.addDependency(CacheService.getServiceName(containerRef, cacheRef), Cache.class, service.getCache());
+        serviceBuilder.addDependency(CacheService.getServiceName(containerRef, cacheRef), (Class)Cache.class, service.getCache());
         final ServiceController<InfinispanDistributedTreeManager> distributedTreeManagerController = serviceBuilder.install();
         final List<ServiceController<?>> installedServices = new ArrayList<ServiceController<?>>();
         installedServices.add(distributedTreeManagerController);

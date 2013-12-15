@@ -22,11 +22,11 @@
 
 package org.jboss.legacy.jnp.remoting;
 
+import static org.jboss.legacy.jnp.JNPLogger.*;
+
 import org.jboss.as.controller.AbstractRemoveStepHandler;
 import org.jboss.as.controller.OperationContext;
 import org.jboss.as.controller.OperationFailedException;
-import org.jboss.as.controller.PathAddress;
-import org.jboss.as.controller.descriptions.ModelDescriptionConstants;
 import org.jboss.dmr.ModelNode;
 
 /**
@@ -57,7 +57,7 @@ public class RemotingServiceRemoveStepHandler extends AbstractRemoveStepHandler 
     }
 
     void removeRuntimeService(OperationContext context, ModelNode operation) {
-        final String name = PathAddress.pathAddress(operation.get(ModelDescriptionConstants.ADDRESS)).getLastElement().getValue();
+        ROOT_LOGGER.deactivatingRemotingService();
         context.removeService(RemotingConnectorService.SERVICE_NAME);
     }
 }

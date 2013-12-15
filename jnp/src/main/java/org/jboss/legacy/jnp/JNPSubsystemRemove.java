@@ -22,6 +22,8 @@
 
 package org.jboss.legacy.jnp;
 
+import static org.jboss.legacy.jnp.JNPLogger.*;
+
 import org.jboss.as.controller.AbstractRemoveStepHandler;
 import org.jboss.as.controller.OperationContext;
 import org.jboss.as.controller.OperationFailedException;
@@ -37,6 +39,13 @@ public class JNPSubsystemRemove extends AbstractRemoveStepHandler {
     public static final JNPSubsystemRemove INSTANCE = new JNPSubsystemRemove();
 
     private JNPSubsystemRemove() {
+    }
+
+    @Override
+    protected void performRemove(OperationContext context, ModelNode operation, ModelNode model)
+      throws OperationFailedException {
+        ROOT_LOGGER.deactivatingLegacyJnpExtension();
+        super.performRemove(context, operation, model);
     }
 
     @Override

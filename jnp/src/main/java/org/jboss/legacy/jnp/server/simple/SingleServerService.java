@@ -41,7 +41,10 @@
  */
 package org.jboss.legacy.jnp.server.simple;
 
+import static org.jboss.legacy.jnp.JNPLogger.*;
+
 import javax.naming.NamingException;
+
 import org.jboss.as.naming.ServiceBasedNamingStore;
 import org.jboss.legacy.jnp.server.JNPServer;
 import org.jboss.legacy.jnp.server.JNPServerService;
@@ -69,7 +72,7 @@ public class SingleServerService implements JNPServerService {
 
     @Override
     public JNPServer getValue() throws IllegalStateException, IllegalArgumentException {
-        return new SingleJNPServer();
+        return new SingleJNPServer(namingStoreWrapper);
     }
 
     /**
@@ -85,7 +88,7 @@ public class SingleServerService implements JNPServerService {
     public void start(StartContext startContext) throws StartException {
         try {
             this.namingStoreWrapper = new NamingStoreWrapper(namingStoreValue.getValue());
-            NamingContext.setLocal(this.namingStoreWrapper);
+            ROOT_LOGGER.singleServerServiceStarted();
         } catch (NamingException e) {
             throw new StartException(e);
         }
@@ -95,9 +98,16 @@ public class SingleServerService implements JNPServerService {
     public void stop(StopContext stopContext) {
         NamingContext.setLocal(null);
         this.namingStoreWrapper = null;
+        ROOT_LOGGER.singleServerServiceStopped();
     }
 
-    class SingleJNPServer implements JNPServer {
+    static class SingleJNPServer implements JNPServer {
+
+        private final NamingStoreWrapper namingStoreWrapper;
+
+        public SingleJNPServer(NamingStoreWrapper namingStoreWrapper) {
+          this.namingStoreWrapper = namingStoreWrapper;
+        }
 
         @Override
         public NamingBean getNamingBean() {
