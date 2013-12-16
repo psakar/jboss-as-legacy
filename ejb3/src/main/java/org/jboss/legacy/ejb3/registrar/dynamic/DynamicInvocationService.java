@@ -22,11 +22,15 @@
 
 package org.jboss.legacy.ejb3.registrar.dynamic;
 
+import static org.jboss.legacy.ejb3.registrar.dynamic.DynamicInvokableContext.*;
+
 import java.util.Hashtable;
 import java.util.UUID;
+
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.transaction.TransactionManager;
+
 import org.jboss.aop.Advisor;
 import org.jboss.aop.AspectManager;
 import org.jboss.aop.ClassAdvisor;
@@ -42,8 +46,6 @@ import org.jboss.ejb3.proxy.spi.container.InvokableContext;
 import org.jboss.legacy.common.DeploymentEJBDataProxyMap;
 import org.jboss.legacy.common.EJBDataProxy;
 import org.jboss.legacy.ejb3.registrar.EJB3Registrar;
-import static org.jboss.legacy.ejb3.registrar.dynamic.DynamicInvokableContext.getJndiSessionRegistrarBase;
-import static org.jboss.legacy.ejb3.registrar.dynamic.DynamicInvokableContext.switchLoader;
 import org.jboss.metadata.ejb.jboss.JBossEnterpriseBeansMetaData;
 import org.jboss.metadata.ejb.jboss.JBossMetaData;
 import org.jboss.metadata.ejb.jboss.JBossSessionBeanMetaData;
@@ -58,6 +60,7 @@ import org.jboss.msc.value.InjectedValue;
 /**
  * @author baranowb
  */
+@SuppressWarnings("deprecation")
 public abstract class DynamicInvocationService {
     public static final String LEGACY_MD_SECURITY = "security";
     public static final String LEGACY_MD_KEY_PRINCIPIAL = "principal";
@@ -228,7 +231,7 @@ public abstract class DynamicInvocationService {
         businessRemotes.add(data.getRemoteInterfaceClass());
         smd.setBusinessRemotes(businessRemotes);
         MetadataUtil.decorateEjbsWithJndiPolicy(jarMetaData, data.getBeanClassLoader());
-        this.metadata = (JBossSessionBeanMetaData) jarMetaData.getEnterpriseBean(smd.getName());
+        this.metadata = jarMetaData.getEnterpriseBean(smd.getName());
         return (JBossSessionBeanMetaData) this.metadata;
     }
 }

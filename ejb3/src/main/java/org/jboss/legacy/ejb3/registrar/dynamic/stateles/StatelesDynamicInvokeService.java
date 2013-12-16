@@ -33,6 +33,7 @@ import org.jboss.msc.service.Service;
 /**
  * @author baranowb
  */
+@SuppressWarnings("deprecation")
 public class StatelesDynamicInvokeService extends DynamicInvocationService implements Service<DynamicInvocationService> {
 
     public StatelesDynamicInvokeService(final EJBDataProxy ejb3Data, final EEModuleDescription moduleDescription,

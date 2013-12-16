@@ -24,6 +24,7 @@ package org.jboss.legacy.tx.txsession;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
 import org.jboss.as.controller.AbstractBoottimeAddStepHandler;
 import org.jboss.as.controller.OperationContext;
 import org.jboss.as.controller.OperationFailedException;
@@ -71,7 +72,7 @@ public class UserSessionTransactionServiceAddStepHandler extends AbstractBoottim
         installedServices.add(userSessionTransactionServiceController);
         return installedServices;
     }
-    
+
      @Override
     protected void populateModel(final ModelNode operation, final ModelNode model) throws OperationFailedException {
         model.setEmptyObject();

@@ -23,6 +23,7 @@
 package org.jboss.legacy.ejb3.registrar.dynamic.stateful;
 
 import javax.naming.NamingException;
+
 import org.jboss.aop.joinpoint.MethodInvocation;
 import org.jboss.as.core.security.ServerSecurityManager;
 import org.jboss.as.ee.component.Component;
@@ -41,7 +42,7 @@ import org.jboss.msc.value.InjectedValue;
 public class StatefulDynamicInvokableContext extends DynamicInvokableContext {
     public static final String LEGACY_MD_SFSB="SFSBInvocation";
     public static final String LEGACY_MD_SESSION_ID="SessionID";
-    private final InjectedValue<Component> componentCreateServiceInjectedValue;
+//    private final InjectedValue<Component> componentCreateServiceInjectedValue;
 
     public StatefulDynamicInvokableContext(EJBDataProxy ejb3Data, InjectedValue<Component> componentCreateServiceInjectedValue,
             InjectedValue<ServerSecurityManager> serverSecurityManagerInjectedValue,
@@ -51,7 +52,7 @@ public class StatefulDynamicInvokableContext extends DynamicInvokableContext {
             String componentName) {
         super(ejb3Data, serverSecurityManagerInjectedValue, ejb3RegistrarInjectedValue,
                 deploymentRepositoryInjectedValue, viewInjectedValue, applicationName, moduleName, distinctName, componentName);
-        this.componentCreateServiceInjectedValue = componentCreateServiceInjectedValue;
+//        this.componentCreateServiceInjectedValue = componentCreateServiceInjectedValue;
     }
 
     @Override

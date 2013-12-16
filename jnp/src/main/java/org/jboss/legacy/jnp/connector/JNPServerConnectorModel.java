@@ -22,8 +22,9 @@
 
 package org.jboss.legacy.jnp.connector;
 
+import static org.jboss.legacy.jnp.JNPSubsystemModel.*;
+
 import org.jboss.as.controller.PathElement;
-import static org.jboss.legacy.jnp.JNPSubsystemModel.SERVICE;
 
 /**
  * @author baranowb
@@ -35,6 +36,6 @@ public interface JNPServerConnectorModel {
     String SOCKET_BINDING = "socket-binding";
     String RMI_SOCKET_BINDING = "rmi-socket-binding";
     String CACHE_CONTAINER = "cache-container";
-    
+
     PathElement JNP_CONNECTOR_PATH = PathElement.pathElement(SERVICE, SERVICE_NAME);
 }

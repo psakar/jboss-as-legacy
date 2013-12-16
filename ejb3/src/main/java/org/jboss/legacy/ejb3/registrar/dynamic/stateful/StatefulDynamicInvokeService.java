@@ -23,12 +23,13 @@
 package org.jboss.legacy.ejb3.registrar.dynamic.stateful;
 
 import java.io.Serializable;
+
 import javax.naming.NamingException;
+
 import org.jboss.as.ee.component.Component;
 import org.jboss.as.ee.component.EEModuleDescription;
 import org.jboss.as.ejb3.component.EJBComponentDescription;
 import org.jboss.as.ejb3.component.stateful.StatefulSessionComponent;
-import org.jboss.ejb3.proxy.impl.jndiregistrar.JndiSessionRegistrarBase;
 import org.jboss.ejb3.proxy.spi.container.InvokableContext;
 import org.jboss.ejb3.proxy.spi.container.StatefulSessionFactory;
 import org.jboss.legacy.common.EJBDataProxy;
@@ -41,6 +42,7 @@ import org.jboss.msc.value.InjectedValue;
 /**
  * @author baranowb
  */
+@SuppressWarnings("deprecation")
 public class StatefulDynamicInvokeService extends DynamicInvocationService implements Service<DynamicInvocationService> {
 
     private final InjectedValue<Component> componentCreateServiceInjectedValue = new InjectedValue<Component>();
@@ -96,6 +98,7 @@ public class StatefulDynamicInvokeService extends DynamicInvocationService imple
         }
     }
 
+    @Override
     protected void removeLegacyBinding() throws NamingException {
         super.removeLegacyBinding();
         final EJB3Registrar value = this.ejb3RegistrarInjectedValue.getValue();
@@ -119,12 +122,12 @@ public class StatefulDynamicInvokeService extends DynamicInvocationService imple
         Thread.currentThread().setContextClassLoader(loader);
         return current;
     }
-
+/*
     private JndiSessionRegistrarBase getJndiSessionRegistrarBase(final EJBDataProxy data, final EJB3Registrar registrarService) {
         return data.isStateful() ? registrarService.getJndiStatefulSessionRegistrar() : registrarService
                 .getJndiStatelessSessionRegistrar();
     }
-
+*/
     public InjectedValue<Component> getComponentCreateInjectedValue() {
         return componentCreateServiceInjectedValue;
     }

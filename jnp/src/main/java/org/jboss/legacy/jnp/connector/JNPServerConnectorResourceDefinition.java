@@ -21,19 +21,20 @@
  */
 package org.jboss.legacy.jnp.connector;
 
+import static org.jboss.as.controller.SimpleAttributeDefinitionBuilder.*;
+import static org.jboss.dmr.ModelType.*;
+import static org.jboss.legacy.jnp.connector.JNPServerConnectorModel.*;
+
 import org.jboss.as.controller.ReloadRequiredWriteAttributeHandler;
 import org.jboss.as.controller.SimpleAttributeDefinition;
 import org.jboss.as.controller.SimpleAttributeDefinitionBuilder;
-import static org.jboss.as.controller.SimpleAttributeDefinitionBuilder.create;
 import org.jboss.as.controller.SimpleResourceDefinition;
 import org.jboss.as.controller.access.management.SensitiveTargetAccessConstraintDefinition;
 import org.jboss.as.controller.operations.validation.StringLengthValidator;
 import org.jboss.as.controller.registry.AttributeAccess;
 import org.jboss.as.controller.registry.ManagementResourceRegistration;
 import org.jboss.dmr.ModelType;
-import static org.jboss.dmr.ModelType.STRING;
 import org.jboss.legacy.jnp.JNPExtension;
-import static org.jboss.legacy.jnp.connector.JNPServerConnectorModel.JNP_CONNECTOR_PATH;
 import org.jboss.legacy.jnp.infinispan.DistributedTreeManagerModel;
 
 /**
@@ -64,7 +65,7 @@ public class JNPServerConnectorResourceDefinition extends SimpleResourceDefiniti
     public static final JNPServerConnectorResourceDefinition INSTANCE = new JNPServerConnectorResourceDefinition();
 
     private JNPServerConnectorResourceDefinition() {
-        super(JNP_CONNECTOR_PATH, JNPExtension.getResourceDescriptionResolver(JNPServerConnectorModel.SERVICE_NAME), 
+        super(JNP_CONNECTOR_PATH, JNPExtension.getResourceDescriptionResolver(JNPServerConnectorModel.SERVICE_NAME),
                 JNPServerConnectorServiceAddStepHandler.INSTANCE, JNPServerConnectorServiceRemoveStepHandler.INSTANCE);
     }
 

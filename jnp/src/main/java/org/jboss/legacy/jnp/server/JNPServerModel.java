@@ -22,8 +22,9 @@
 
 package org.jboss.legacy.jnp.server;
 
+import static org.jboss.legacy.jnp.JNPSubsystemModel.*;
+
 import org.jboss.as.controller.PathElement;
-import static org.jboss.legacy.jnp.JNPSubsystemModel.SERVICE;
 
 /**
  * @author baranowb
@@ -32,6 +33,6 @@ import static org.jboss.legacy.jnp.JNPSubsystemModel.SERVICE;
 public interface JNPServerModel {
     String SERVICE_NAME = "jnp-server";
     String HA = "ha";
-    
+
     PathElement JNPSERVER_PATH = PathElement.pathElement(SERVICE, SERVICE_NAME);
 }

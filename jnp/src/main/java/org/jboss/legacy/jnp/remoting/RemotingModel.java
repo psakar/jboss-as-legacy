@@ -22,8 +22,9 @@
 
 package org.jboss.legacy.jnp.remoting;
 
+import static org.jboss.legacy.jnp.JNPSubsystemModel.*;
+
 import org.jboss.as.controller.PathElement;
-import static org.jboss.legacy.jnp.JNPSubsystemModel.SERVICE;
 
 /**
  * @author baranowb
@@ -32,6 +33,6 @@ import static org.jboss.legacy.jnp.JNPSubsystemModel.SERVICE;
 public interface RemotingModel {
     String SERVICE_NAME = "remoting";
     String SOCKET_BINDING = "socket-binding";
-    
+
     PathElement REMOTING_PATH = PathElement.pathElement(SERVICE, SERVICE_NAME);
 }

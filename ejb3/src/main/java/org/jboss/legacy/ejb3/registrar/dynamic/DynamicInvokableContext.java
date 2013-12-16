@@ -21,12 +21,15 @@
  */
 package org.jboss.legacy.ejb3.registrar.dynamic;
 
-import com.arjuna.ats.arjuna.common.Uid;
+import static org.jboss.as.ejb3.EjbMessages.*;
+
 import java.lang.reflect.Method;
+
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.transaction.Transaction;
 import javax.transaction.TransactionManager;
+
 import org.jboss.aop.joinpoint.Invocation;
 import org.jboss.aop.joinpoint.InvocationResponse;
 import org.jboss.aop.joinpoint.MethodInvocation;
@@ -34,7 +37,6 @@ import org.jboss.as.core.security.ServerSecurityManager;
 import org.jboss.as.ee.component.Component;
 import org.jboss.as.ee.component.ComponentView;
 import org.jboss.as.ee.utils.DescriptorUtils;
-import static org.jboss.as.ejb3.EjbMessages.MESSAGES;
 import org.jboss.as.ejb3.component.EJBComponent;
 import org.jboss.as.ejb3.deployment.DeploymentModuleIdentifier;
 import org.jboss.as.ejb3.deployment.DeploymentRepository;
@@ -51,11 +53,14 @@ import org.jboss.legacy.ejb3.registrar.EJB3Registrar;
 import org.jboss.msc.value.InjectedValue;
 import org.jboss.security.plugins.JBossSecurityContext;
 
+import com.arjuna.ats.arjuna.common.Uid;
+
 /**
  * Handles magic moombo jumbo invocation.
  *
  * @author baranowb
  */
+@SuppressWarnings("deprecation")
 public class DynamicInvokableContext implements InvokableContext {
 
     public static final String LEGACY_MD_SECURITY = "security";

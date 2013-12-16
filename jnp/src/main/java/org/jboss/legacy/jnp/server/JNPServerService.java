@@ -21,12 +21,13 @@
  */
 package org.jboss.legacy.jnp.server;
 
-import static org.jboss.legacy.jnp.JNPSubsystemModel.LEGACY;
+import static org.jboss.legacy.jnp.JNPSubsystemModel.*;
+
 import org.jboss.msc.service.Service;
 import org.jboss.msc.service.ServiceName;
 
 /**
- * 
+ *
  * @author <a href="mailto:ehugonne@redhat.com">Emmanuel Hugonnet</a>  (c) 2013 Red Hat, inc.
  */
 public interface JNPServerService extends Service<JNPServer> {

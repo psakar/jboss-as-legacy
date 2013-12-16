@@ -28,6 +28,4 @@ package org.jboss.legacy.jnp;
 public interface JNPSubsystemModel {
     String SERVICE = "service";
     String LEGACY = "legacy";
-    
-    
 }
